@@ -4,6 +4,6 @@
   <path d="M140 420 C220 300, 320 300, 400 360 S580 470, 660 320" fill="none" stroke="#7fa9c9" stroke-width="18" stroke-linecap="round"/>
   <circle cx="520" cy="220" r="48" fill="#c9dceb" stroke="#3f6f92" stroke-width="4"/>
   <rect x="200" y="200" width="120" height="80" rx="10" fill="#d7e7f2"/>
-  <text x="400" y="50" text-anchor="middle" font-family="DM Sans, Arial" font-size="28" font-weight="700" fill="#1a1a1a">Wang Center</text>
-  <text x="400" y="560" text-anchor="middle" font-family="DM Sans, Arial" font-size="16" fill="#5c6570">Path ritual schematic</text>
+  <text x="400" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#1a1a1a">Wang Center</text>
+  <text x="400" y="560" text-anchor="middle" font-family="Arial, sans-serif" font-size="16" fill="#5c6570">Path ritual schematic</text>
 </svg>

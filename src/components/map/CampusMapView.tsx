@@ -5,17 +5,16 @@ import { features } from '../../config/features'
 import { getEnabledSites } from '../../data/campusSites'
 import { claimedEnabledCount, enabledSiteCount, suggestedNextSite } from '../../domain/completion'
 import { distanceToSite, isInRange, latLngToMapXY } from '../../domain/geofence'
-import { isSiteClaimed } from '../../domain/progress'
-import type { CampusSite, PlayerLocation, SiteRuntimeState } from '../../domain/types'
+import { isBranchComplete, isSiteClaimed } from '../../domain/progress'
+import type { CampusSite, SiteRuntimeState } from '../../domain/types'
+import { melvilleBranch } from '../../data/melville'
+import { wangBranch } from '../../data/wang'
 import { usePlayerLocation } from '../../location/usePlayerLocation'
 import { useGameStore } from '../../state/useGameStore'
 import { SiteSheet } from './SiteSheet'
 import './CampusMapView.css'
 
-function siteState(
-  progressClaimed: boolean,
-  inRange: boolean,
-): SiteRuntimeState {
+function siteState(progressClaimed: boolean, inRange: boolean): SiteRuntimeState {
   if (progressClaimed) return 'claimed'
   if (inRange) return 'in_range'
   return 'locked'
@@ -28,6 +27,7 @@ type Props = {
 export function CampusMapView({ watchGps = true }: Props) {
   const progress = useGameStore((s) => s.progress)
   const claim = useGameStore((s) => s.claim)
+  const setDemo = useGameStore((s) => s.setDemo)
   const showToast = useGameStore((s) => s.showToast)
   const demoOverride = useGameStore((s) => s.demoOverride)
   const demoMode = progress.settings.demoMode
@@ -37,8 +37,10 @@ export function CampusMapView({ watchGps = true }: Props) {
     demoLocation: demoOverride,
   })
 
+  const player = demoOverride ?? location
   const sites = useMemo(() => getEnabledSites(), [])
   const [selectedId, setSelectedId] = useState<string | null>(null)
+  const mapArt = assetUrl('maps/campus.svg')
 
   const selected = sites.find((s) => s.id === selectedId) ?? null
   const suggested = features.showRecommendedNext
@@ -49,7 +51,15 @@ export function CampusMapView({ watchGps = true }: Props) {
   const total = enabledSiteCount(sites)
   const pct = total === 0 ? 0 : Math.round((claimedCount / total) * 100)
 
-  const playerXY = location ? latLngToMapXY(location.lat, location.lng) : null
+  const playerXY = player ? latLngToMapXY(player.lat, player.lng) : null
+  const melvilleDone = isBranchComplete(progress, 'melville', melvilleBranch.completeWhenFlags)
+  const wangDone = isBranchComplete(progress, 'wang', wangBranch.completeWhenFlags)
+  const melvilleClaimed = isSiteClaimed(progress, 'melville-library')
+  const wangClaimed = isSiteClaimed(progress, 'wang-center')
+  const canEnterMelville = demoMode || melvilleClaimed
+  const canEnterWang = demoMode || wangClaimed
+  const needsDemoHint =
+    !demoMode && (permission === 'denied' || permission === 'unavailable' || !player)
 
   function handleClaim(site: CampusSite) {
     claim(site.id)
@@ -57,14 +67,41 @@ export function CampusMapView({ watchGps = true }: Props) {
   }
 
   return (
-    <div className="campus-map">
+    <div
+      className="campus-map"
+      style={{ backgroundImage: `url("${mapArt}")` }}
+    >
       <div className="map-hud">
-        {demoMode ? <div className="banner banner-demo">Demo Mode on — distance checks bypassed</div> : null}
-        {noisy ? <div className="banner banner-warn">GPS is noisy here — wait a few seconds or move to open sky</div> : null}
-        {stale ? <div className="banner banner-warn">Signal stale — acquiring a fresher fix…</div> : null}
+        {demoMode ? (
+          <div className="banner banner-demo">Demo Mode on — claim any stop, enter buildings freely</div>
+        ) : null}
+        {needsDemoHint ? (
+          <div className="banner banner-warn">
+            No GPS yet.{' '}
+            <button
+              type="button"
+              className="linkish"
+              onClick={() => {
+                setDemo(true)
+                showToast('Demo Mode enabled')
+              }}
+            >
+              Enable Demo Mode
+            </button>{' '}
+            to explore the map and indoor branches.
+          </div>
+        ) : null}
+        {noisy ? (
+          <div className="banner banner-warn">
+            GPS is noisy here — wait a few seconds or move to open sky
+          </div>
+        ) : null}
+        {stale ? (
+          <div className="banner banner-warn">Signal stale — acquiring a fresher fix…</div>
+        ) : null}
         {permission === 'denied' || permission === 'unavailable' ? (
           <div className="banner banner-error">
-            {error ?? 'Location needed'} — open Settings for Demo Mode or permission help.
+            {error ?? 'Location needed'} — use Demo Mode above, or open Settings.
           </div>
         ) : null}
         <div className="map-hud-bar">
@@ -80,13 +117,48 @@ export function CampusMapView({ watchGps = true }: Props) {
             </Link>
           </div>
         </div>
+        <div className="building-dock">
+          {canEnterMelville ? (
+            <Link className={`dock-btn${melvilleDone ? ' dock-done' : ''}`} to="/building/melville">
+              Enter Melville{melvilleDone ? ' ✓' : ''}
+            </Link>
+          ) : (
+            <button
+              type="button"
+              className="dock-btn dock-locked"
+              onClick={() => {
+                setSelectedId('melville-library')
+                showToast('Claim Melville Library first (or enable Demo Mode)')
+              }}
+            >
+              Melville locked
+            </button>
+          )}
+          {canEnterWang ? (
+            <Link className={`dock-btn${wangDone ? ' dock-done' : ''}`} to="/building/wang">
+              Enter Wang{wangDone ? ' ✓' : ''}
+            </Link>
+          ) : (
+            <button
+              type="button"
+              className="dock-btn dock-locked"
+              onClick={() => {
+                setSelectedId('wang-center')
+                showToast('Claim Wang Center first (or enable Demo Mode)')
+              }}
+            >
+              Wang locked
+            </button>
+          )}
+        </div>
       </div>
 
-      <img className="campus-map-art" src={assetUrl('maps/campus.svg')} alt="Stony Brook main campus map" />
+      {/* Decorative fallback layer if CSS background fails */}
+      <img className="campus-map-art" src={mapArt} alt="" aria-hidden />
 
       {sites.map((site) => {
         const claimed = isSiteClaimed(progress, site.id)
-        const inRange = isInRange(location, site, demoMode)
+        const inRange = isInRange(player, site, demoMode)
         const state = siteState(claimed, inRange)
         return (
           <button
@@ -95,9 +167,11 @@ export function CampusMapView({ watchGps = true }: Props) {
             className={`marker marker-${state}${selectedId === site.id ? ' marker-selected' : ''}`}
             style={{ left: `${site.mapX * 100}%`, top: `${site.mapY * 100}%` }}
             aria-label={site.name}
+            title={site.name}
             onClick={() => setSelectedId(site.id)}
           >
             <span className="marker-pin" />
+            <span className="marker-label">{site.name}</span>
           </button>
         )
       })}
@@ -123,8 +197,8 @@ export function CampusMapView({ watchGps = true }: Props) {
         {selected ? (
           <SiteSheet
             site={selected}
-            distanceM={distanceToSite(effectiveLocation(location, demoOverride), selected)}
-            canClaim={isInRange(effectiveLocation(location, demoOverride), selected, demoMode)}
+            distanceM={distanceToSite(player, selected)}
+            canClaim={isInRange(player, selected, demoMode)}
             onClaim={() => handleClaim(selected)}
             onClose={() => setSelectedId(null)}
           />
@@ -132,11 +206,4 @@ export function CampusMapView({ watchGps = true }: Props) {
       </div>
     </div>
   )
-}
-
-function effectiveLocation(
-  location: PlayerLocation | null,
-  demoOverride: PlayerLocation | null,
-): PlayerLocation | null {
-  return demoOverride ?? location
 }

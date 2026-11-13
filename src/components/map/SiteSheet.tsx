@@ -20,14 +20,20 @@ function formatDistance(m: number | null): string {
 export function SiteSheet({ site, distanceM, canClaim, onClaim, onClose }: Props) {
   const progress = useGameStore((s) => s.progress)
   const claimed = isSiteClaimed(progress, site.id)
+  const demoMode = progress.settings.demoMode
+  const canEnterBuilding =
+    !!site.unlocksBuilding && (claimed || demoMode)
 
   return (
     <div className="sheet stack">
       <div className="row" style={{ justifyContent: 'space-between' }}>
         <div>
-          <div className="chip">{site.zone} · {site.category}</div>
+          <div className="chip">
+            {site.zone} · {site.category}
+          </div>
           <h2>{site.name}</h2>
           <p className="muted" style={{ margin: 0 }}>
+            {demoMode ? 'Demo Mode · ' : ''}
             {formatDistance(distanceM)}
           </p>
         </div>
@@ -48,24 +54,26 @@ export function SiteSheet({ site, distanceM, canClaim, onClaim, onClose }: Props
           {canClaim ? 'Claim stop' : 'Walk closer to claim this stop'}
         </button>
       ) : (
-        <>
-          <div className="chip chip-claimed">Logged to your campus run</div>
-          <ul style={{ margin: 0, paddingLeft: '1.1rem' }}>
-            {site.facts.map((f) => (
-              <li key={f}>{f}</li>
-            ))}
-          </ul>
-          {site.unlocksBuilding ? (
-            <Link
-              className="btn btn-secondary"
-              to={`/building/${site.unlocksBuilding}`}
-              style={{ textAlign: 'center', textDecoration: 'none' }}
-            >
-              Enter {site.unlocksBuilding === 'melville' ? 'Melville' : 'Wang Center'}
-            </Link>
-          ) : null}
-        </>
+        <div className="chip chip-claimed">Logged to your campus run</div>
       )}
+
+      {(claimed || demoMode) && site.facts.length > 0 ? (
+        <ul style={{ margin: 0, paddingLeft: '1.1rem' }}>
+          {site.facts.map((f) => (
+            <li key={f}>{f}</li>
+          ))}
+        </ul>
+      ) : null}
+
+      {canEnterBuilding ? (
+        <Link
+          className="btn btn-secondary"
+          to={`/building/${site.unlocksBuilding}`}
+          style={{ textAlign: 'center', textDecoration: 'none' }}
+        >
+          Enter {site.unlocksBuilding === 'melville' ? 'Melville Library' : 'Wang Center'}
+        </Link>
+      ) : null}
     </div>
   )
 }

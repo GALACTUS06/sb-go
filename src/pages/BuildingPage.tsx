@@ -30,16 +30,18 @@ export function BuildingPage() {
   const allowed = useMemo(() => {
     if (!valid) return false
     const id = buildingId as BuildingId
+    const demoMode = progress.settings.demoMode
+    // Demo Mode unlocks indoor branches for presentations / no-GPS browsers.
+    if (demoMode) return true
     const entrance = getEntranceSite(id)
     const outdoor = getSiteById(id === 'melville' ? 'melville-library' : 'wang-center')
-    const demoMode = progress.settings.demoMode
     const atEntrance = entrance
-      ? isInRange(demoOverride ?? location, entrance, demoMode)
-      : demoMode
+      ? isInRange(demoOverride ?? location, entrance, false)
+      : false
     const claimedOk =
       !features.requireOutdoorClaimBeforeEnter ||
       (outdoor ? isSiteClaimed(progress, outdoor.id) : false)
-    return demoMode || (atEntrance && claimedOk)
+    return atEntrance && claimedOk
   }, [valid, buildingId, progress, demoOverride, location])
 
   useEffect(() => {
