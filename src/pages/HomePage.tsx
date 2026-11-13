@@ -1,4 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom'
+import { hardRefreshApp } from '../cacheReset'
 import { APP_VERSION, GAME_DISPLAY_NAME } from '../config/brand'
 import { useGameStore } from '../state/useGameStore'
 
@@ -67,6 +68,10 @@ export function HomePage() {
         >
           Settings / Demo Mode
         </Link>
+
+        <button type="button" className="btn btn-ghost" onClick={() => void hardRefreshApp()}>
+          Map broken? Clear cache & reload
+        </button>
 
         <p className="muted" style={{ margin: 0, fontSize: '0.8rem' }}>
           v{APP_VERSION} · Indoor shortcuts enable Demo Mode automatically

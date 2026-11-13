@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>SB GO — clear cache</title>
+    <style>
+      body {
+        font-family: system-ui, sans-serif;
+        max-width: 28rem;
+        margin: 3rem auto;
+        padding: 0 1rem;
+        line-height: 1.45;
+      }
+      button {
+        font-size: 1rem;
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Clear SB GO cache</h1>
+    <p>
+      If indoor maps still show “Could not load official floor plan PDF”, this device is stuck on an
+      old offline build. Tap below, then reopen Melville / Wang.
+    </p>
+    <button type="button" id="go">Clear cache &amp; open app</button>
+    <script>
+      document.getElementById('go').onclick = async () => {
+        try {
+          if ('serviceWorker' in navigator) {
+            const regs = await navigator.serviceWorker.getRegistrations()
+            await Promise.all(regs.map((r) => r.unregister()))
+          }
+          if ('caches' in window) {
+            const keys = await caches.keys()
+            await Promise.all(keys.map((k) => caches.delete(k)))
+          }
+        } finally {
+          location.replace('./?nocache=' + Date.now())
+        }
+      }
+      // Auto-run so a single visit fixes it
+      document.getElementById('go').click()
+    </script>
+  </body>
+</html>
