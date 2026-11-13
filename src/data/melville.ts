@@ -4,9 +4,9 @@ export const melvilleBranch: BuildingBranch = {
   id: 'melville',
   title: 'Melville Library',
   sequential: false,
-  floorPlanKey: 'maps/real/melville-emergency.pdf',
-  floorPlanPage: 2,
-  enterCopy: 'Official Melville emergency floor plans — hold to scan archive echoes.',
+  // Official escape-route floor plate (Melville emergency plan p.3)
+  floorPlanKey: 'maps/real/melville-floor-p3.png',
+  enterCopy: 'Official Melville floor plate — dots sit on corridors. Hold to scan echoes.',
   completeToast: 'Melville branch complete',
   completeWhenFlags: [
     'melville.openStacks',
@@ -19,8 +19,9 @@ export const melvilleBranch: BuildingBranch = {
   hotspots: [
     {
       id: 'open-stacks',
-      x: 0.32,
-      y: 0.55,
+      // north corridor on escape-route ring
+      x: 0.5,
+      y: 0.335,
       label: 'Open Stacks Echo',
       interaction: 'hold',
       holdMs: 1000,
@@ -29,8 +30,9 @@ export const melvilleBranch: BuildingBranch = {
     },
     {
       id: 'melville-name',
-      x: 0.5,
-      y: 0.4,
+      // west corridor
+      x: 0.29,
+      y: 0.49,
       label: 'The Melville Name',
       interaction: 'hold',
       holdMs: 1000,
@@ -39,8 +41,9 @@ export const melvilleBranch: BuildingBranch = {
     },
     {
       id: 'expansion-wings',
-      x: 0.68,
-      y: 0.48,
+      // east corridor
+      x: 0.7,
+      y: 0.44,
       label: 'Wings Around the Core',
       interaction: 'hold',
       holdMs: 1000,
@@ -49,8 +52,9 @@ export const melvilleBranch: BuildingBranch = {
     },
     {
       id: 'reading-room',
-      x: 0.45,
-      y: 0.62,
+      // south corridor
+      x: 0.44,
+      y: 0.72,
       label: 'Reading Room Pulse',
       interaction: 'hold',
       holdMs: 1000,
@@ -59,8 +63,9 @@ export const melvilleBranch: BuildingBranch = {
     },
     {
       id: 'special-collections',
-      x: 0.58,
-      y: 0.35,
+      // SE junction (marked exits on plan)
+      x: 0.65,
+      y: 0.64,
       label: 'Memory Vault',
       interaction: 'hold',
       holdMs: 1000,
@@ -69,8 +74,9 @@ export const melvilleBranch: BuildingBranch = {
     },
     {
       id: 'bridge-echo',
+      // inner edge of north ring → memory jump
       x: 0.5,
-      y: 0.22,
+      y: 0.4,
       label: 'Bridge Echo',
       interaction: 'jump',
       requiresFlags: [

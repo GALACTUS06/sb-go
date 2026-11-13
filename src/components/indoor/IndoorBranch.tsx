@@ -1,12 +1,11 @@
 import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import { assetUrl } from '../../config/assets'
 import type { BuildingBranch, IndoorHotspot } from '../../domain/types'
 import { hasFlags, isBranchComplete } from '../../domain/progress'
 import { useGameStore } from '../../state/useGameStore'
 import { HoldInteract } from '../ui/HoldInteract'
 import { QuizModal } from '../ui/QuizModal'
-import { PdfFloorPlan } from './PdfFloorPlan'
+import { FloorPlanStage } from './FloorPlanStage'
 import '../map/CampusMapView.css'
 
 type Props = {
@@ -66,8 +65,6 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
     }
   }
 
-  const isPdf = branch.floorPlanKey.toLowerCase().endsWith('.pdf')
-
   return (
     <div className="app-shell" style={{ height: '100dvh', minHeight: '100%' }}>
       <div className="indoor-top">
@@ -97,19 +94,7 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
         <div className="banner banner-demo">Branch complete — return anytime.</div>
       ) : null}
 
-      <div className="indoor-stage">
-        {isPdf ? (
-          <PdfFloorPlan
-            pdfPath={branch.floorPlanKey}
-            pageNumber={branch.floorPlanPage ?? 1}
-          />
-        ) : (
-          <img
-            className="indoor-art"
-            src={assetUrl(branch.floorPlanKey)}
-            alt={`${branch.title} floor plan`}
-          />
-        )}
+      <FloorPlanStage imagePath={branch.floorPlanKey} alt={`${branch.title} floor plan`}>
         {ordered.map((h) => {
           const done = !!progress[branch.id].flags[h.rewardFlag]
           const unlocked = hasFlags(progress, branch.id, h.requiresFlags)
@@ -120,11 +105,12 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
               className={`hotspot${done ? ' hotspot-done' : ''}${!unlocked ? ' hotspot-locked' : ''}`}
               style={{ left: `${h.x * 100}%`, top: `${h.y * 100}%` }}
               aria-label={h.label}
+              title={h.label}
               onClick={() => onHotspotClick(h)}
             />
           )
         })}
-      </div>
+      </FloorPlanStage>
 
       {active && active.interaction !== 'quiz' ? (
         <div className="sheet stack">

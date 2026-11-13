@@ -4,9 +4,9 @@ export const wangBranch: BuildingBranch = {
   id: 'wang',
   title: 'Charles B. Wang Center',
   sequential: true,
-  floorPlanKey: 'maps/real/wang-gallery-walking.pdf',
-  floorPlanPage: 1,
-  enterCopy: 'Official Wang Center gallery walking map — follow the ritual path.',
+  // Official gallery-level walking map (rasterized from SBU PDF)
+  floorPlanKey: 'maps/real/wang-gallery.png',
+  enterCopy: 'Official Wang gallery walking map — follow the pink path.',
   completeToast: 'Wang Center branch complete',
   completeWhenFlags: [
     'wang.arrival',
@@ -20,9 +20,10 @@ export const wangBranch: BuildingBranch = {
   hotspots: [
     {
       id: 'gate-arrival',
-      x: 0.2,
-      y: 0.7,
-      label: 'Threshold',
+      // Main Entrance (bottom edge of pink footprint)
+      x: 0.5,
+      y: 0.6,
+      label: 'Main Entrance',
       interaction: 'hold',
       holdMs: 900,
       rewardFlag: 'wang.arrival',
@@ -30,9 +31,10 @@ export const wangBranch: BuildingBranch = {
     },
     {
       id: 'courtyard-water',
-      x: 0.35,
-      y: 0.55,
-      label: 'Courtyard Water',
+      // Left rectangular walking loop
+      x: 0.21,
+      y: 0.48,
+      label: 'Courtyard Loop',
       interaction: 'hold',
       holdMs: 900,
       requiresFlags: ['wang.arrival'],
@@ -41,9 +43,10 @@ export const wangBranch: BuildingBranch = {
     },
     {
       id: 'arch-bridge',
-      x: 0.5,
-      y: 0.5,
-      label: 'Arch Bridge',
+      // Center corridor of the pink path
+      x: 0.47,
+      y: 0.455,
+      label: 'Center Passage',
       interaction: 'hold',
       holdMs: 900,
       requiresFlags: ['wang.water'],
@@ -52,8 +55,9 @@ export const wangBranch: BuildingBranch = {
     },
     {
       id: 'pagoda-tower',
-      x: 0.62,
-      y: 0.38,
+      // Second Floor View label area (above path)
+      x: 0.38,
+      y: 0.28,
       label: 'Tower Sightline',
       interaction: 'quiz',
       requiresFlags: ['wang.bridge'],
@@ -73,9 +77,10 @@ export const wangBranch: BuildingBranch = {
     },
     {
       id: 'gallery-wing',
-      x: 0.72,
-      y: 0.48,
-      label: 'Gallery Wing',
+      // Right pill-shaped loop
+      x: 0.7,
+      y: 0.45,
+      label: 'Gallery Loop',
       interaction: 'hold',
       holdMs: 900,
       requiresFlags: ['wang.tower'],
@@ -84,9 +89,10 @@ export const wangBranch: BuildingBranch = {
     },
     {
       id: 'jasmine-edge',
-      x: 0.78,
-      y: 0.62,
-      label: 'Campus Crossroads',
+      // Circle Rd. Entrance (east tip of path)
+      x: 0.79,
+      y: 0.45,
+      label: 'Circle Rd Entrance',
       interaction: 'hold',
       holdMs: 900,
       requiresFlags: ['wang.gallery'],
@@ -95,8 +101,9 @@ export const wangBranch: BuildingBranch = {
     },
     {
       id: 'mirror-garden',
-      x: 0.55,
-      y: 0.28,
+      // open court between left loop and center path
+      x: 0.35,
+      y: 0.52,
       label: 'Mirror Seam',
       interaction: 'jump',
       requiresFlags: ['wang.crossroads'],
