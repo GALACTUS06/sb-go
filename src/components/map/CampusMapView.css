@@ -28,18 +28,26 @@
 }
 
 .sb-marker {
-  background: transparent;
-  border: none;
+  background: transparent !important;
+  border: none !important;
+}
+
+.sb-marker-root {
+  position: relative;
+  width: 0;
+  height: 0;
 }
 
 .sb-marker-pin {
+  position: absolute;
+  left: -9px;
+  top: -18px;
   width: 18px;
   height: 18px;
   border-radius: 50% 50% 50% 0;
   transform: rotate(-45deg);
   border: 2px solid #fff;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
-  margin: 0 auto;
 }
 
 .sb-marker-locked .sb-marker-pin {
@@ -56,10 +64,10 @@
 }
 
 .sb-marker-label {
-  margin-top: 4px;
-  transform: translateX(-50%) rotate(0deg);
-  position: relative;
-  left: 50%;
+  position: absolute;
+  left: 0;
+  top: 4px;
+  transform: translateX(-50%);
   white-space: nowrap;
   font-size: 0.65rem;
   font-weight: 700;
@@ -72,6 +80,7 @@
   overflow: hidden;
   text-overflow: ellipsis;
   text-align: center;
+  pointer-events: none;
 }
 
 .map-hud {

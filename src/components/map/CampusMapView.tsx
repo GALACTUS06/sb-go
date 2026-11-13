@@ -26,11 +26,13 @@ function siteState(progressClaimed: boolean, inRange: boolean): SiteRuntimeState
 }
 
 function markerIcon(state: SiteRuntimeState, label: string) {
+  // Zero-size icon with absolute pin so lat/lng sits exactly on the pin tip.
+  const safe = label.replace(/</g, '&lt;').replace(/"/g, '&quot;')
   return L.divIcon({
     className: `sb-marker sb-marker-${state}`,
-    html: `<div class="sb-marker-pin"></div><div class="sb-marker-label">${label}</div>`,
-    iconSize: [18, 18],
-    iconAnchor: [9, 18],
+    html: `<div class="sb-marker-root"><div class="sb-marker-pin"></div><div class="sb-marker-label">${safe}</div></div>`,
+    iconSize: [0, 0],
+    iconAnchor: [0, 0],
   })
 }
 
