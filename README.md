@@ -22,12 +22,15 @@ Deploy the `dist/` folder to any static HTTPS host (Cloudflare Pages, Vercel, Ne
 
 ## What works in this build
 
-- Campus map with Zone A–D starter stops (approx. coordinates — tune on site)
+- **Real outdoor map**: Leaflet + Esri satellite / OpenStreetMap streets (no Google fee)
+- Zone A–D starter stops on true lat/lng (tune on site)
 - GPS geofence claims + **Demo Mode** / fake position / snap-to-site
 - Local save (`localStorage`)
-- Melville Library indoor branch (hold + jump world)
-- Wang Center indoor branch (sequential path + quiz + jump world)
+- **Melville** indoor branch on official emergency floor-plan PDF
+- **Wang** indoor branch on official gallery walking-map PDF
 - PWA manifest + service worker (`vite-plugin-pwa`)
+
+See [docs/MAPS_AND_COST.md](docs/MAPS_AND_COST.md) for Google Maps pricing vs free stack.
 
 ## Documentation
 

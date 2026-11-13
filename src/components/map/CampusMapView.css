@@ -1,105 +1,77 @@
+@import 'leaflet/dist/leaflet.css';
+
 .campus-map {
   position: relative;
   width: 100%;
   flex: 1;
   min-height: 0;
   height: 100%;
-  background-color: #c5d6c2;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: #1a1a1a;
   overflow: hidden;
   touch-action: manipulation;
+  display: flex;
+  flex-direction: column;
 }
 
-.campus-map-art {
-  position: absolute;
-  inset: 0;
+.leaflet-map-root {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  z-index: 1;
+}
+
+.leaflet-container {
   width: 100%;
   height: 100%;
-  object-fit: cover;
-  object-position: center;
-  user-select: none;
-  pointer-events: none;
-  opacity: 0.01;
+  font: inherit;
+  background: #0b1a12;
 }
 
-.marker {
-  position: absolute;
-  transform: translate(-50%, -100%);
-  border: none;
+.sb-marker {
   background: transparent;
-  padding: 0;
-  cursor: pointer;
-  z-index: 2;
+  border: none;
 }
 
-.marker-label {
-  position: absolute;
-  left: 50%;
-  top: calc(100% + 4px);
-  transform: translateX(-50%);
-  white-space: nowrap;
-  font-size: 0.62rem;
-  font-weight: 700;
-  color: var(--ink);
-  background: rgba(255, 255, 255, 0.92);
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 0.1rem 0.35rem;
-  max-width: 88px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  pointer-events: none;
-}
-
-.marker-selected .marker-label,
-.marker-in_range .marker-label {
-  max-width: 140px;
-  font-size: 0.7rem;
-}
-
-.marker-pin {
+.sb-marker-pin {
   width: 18px;
   height: 18px;
   border-radius: 50% 50% 50% 0;
   transform: rotate(-45deg);
-  border: 2px solid white;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  border: 2px solid #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+  margin: 0 auto;
 }
 
-.marker-locked .marker-pin {
+.sb-marker-locked .sb-marker-pin {
   background: #8a94a0;
 }
 
-.marker-in_range .marker-pin {
+.sb-marker-in_range .sb-marker-pin {
   background: var(--success);
   animation: pulse 1.4s ease-in-out infinite;
 }
 
-.marker-claimed .marker-pin {
+.sb-marker-claimed .sb-marker-pin {
   background: var(--sbu-red);
 }
 
-.marker-selected {
-  z-index: 3;
-}
-
-.marker-selected .marker-pin {
-  width: 22px;
-  height: 22px;
-}
-
-.player-puck {
-  position: absolute;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: white;
-  border: 3px solid var(--navy);
-  transform: translate(-50%, -50%);
-  z-index: 4;
-  box-shadow: 0 0 0 8px rgba(0, 51, 102, 0.15);
+.sb-marker-label {
+  margin-top: 4px;
+  transform: translateX(-50%) rotate(0deg);
+  position: relative;
+  left: 50%;
+  white-space: nowrap;
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid #e2e5ea;
+  border-radius: 6px;
+  padding: 0.12rem 0.35rem;
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
 }
 
 .map-hud {
@@ -107,10 +79,15 @@
   top: 0;
   left: 0;
   right: 0;
-  z-index: 5;
+  z-index: 500;
   display: flex;
   flex-direction: column;
   gap: 0;
+  pointer-events: none;
+}
+
+.map-hud > * {
+  pointer-events: auto;
 }
 
 .map-hud-bar {
@@ -119,14 +96,22 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 0.9rem;
-  background: linear-gradient(to bottom, rgba(247, 248, 250, 0.96), rgba(247, 248, 250, 0.7));
+  background: linear-gradient(
+    to bottom,
+    rgba(247, 248, 250, 0.96),
+    rgba(247, 248, 250, 0.82)
+  );
 }
 
 .building-dock {
   display: flex;
   gap: 0.5rem;
   padding: 0 0.75rem 0.65rem;
-  background: linear-gradient(to bottom, rgba(247, 248, 250, 0.7), rgba(247, 248, 250, 0.2));
+  background: linear-gradient(
+    to bottom,
+    rgba(247, 248, 250, 0.82),
+    rgba(247, 248, 250, 0.25)
+  );
 }
 
 .dock-btn {
@@ -175,7 +160,12 @@
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 5;
+  z-index: 500;
+  pointer-events: none;
+}
+
+.map-bottom > * {
+  pointer-events: auto;
 }
 
 .suggest-chip {
@@ -191,6 +181,44 @@
   cursor: pointer;
 }
 
+.map-layer-toggle {
+  position: absolute;
+  right: 0.75rem;
+  bottom: calc(5.5rem + var(--safe-bottom));
+  z-index: 500;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.map-layer-toggle button {
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 999px;
+  padding: 0.45rem 0.7rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow);
+}
+
+.map-layer-toggle button.active {
+  background: var(--sbu-red);
+  color: #fff;
+  border-color: var(--sbu-red);
+}
+
+.attribution-note {
+  position: absolute;
+  left: 0.5rem;
+  bottom: 0.35rem;
+  z-index: 450;
+  font-size: 0.62rem;
+  color: rgba(255, 255, 255, 0.9);
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.8);
+  pointer-events: none;
+}
+
 @keyframes pulse {
   0%,
   100% {
@@ -201,39 +229,37 @@
   }
 }
 
-.modal-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(26, 26, 26, 0.45);
-  display: grid;
-  place-items: center;
-  z-index: 40;
-  padding: 1rem;
-}
-
-.modal-card {
-  background: var(--surface-elevated);
-  border-radius: var(--radius);
-  padding: 1.1rem;
-  width: min(100%, 400px);
-  box-shadow: var(--shadow);
-}
-
 .indoor-stage {
   position: relative;
   flex: 1;
   min-height: 0;
-  background: #ece7df;
+  background: #1c1c1c;
   overflow: hidden;
 }
 
-.indoor-art {
+.indoor-art,
+.indoor-pdf-canvas {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: contain;
-  background: #e8e2d8;
+  background: #111;
+}
+
+.indoor-pdf-wrap {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: auto;
+  background: #111;
+}
+
+.indoor-pdf-wrap canvas {
+  max-width: 100%;
+  max-height: 100%;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
 }
 
 .hotspot {
@@ -249,6 +275,7 @@
   font-weight: 700;
   cursor: pointer;
   box-shadow: var(--shadow);
+  z-index: 2;
 }
 
 .hotspot-done {
@@ -287,4 +314,22 @@
 
 .step-on {
   background: var(--sbu-red);
+}
+
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(26, 26, 26, 0.45);
+  display: grid;
+  place-items: center;
+  z-index: 40;
+  padding: 1rem;
+}
+
+.modal-card {
+  background: var(--surface-elevated);
+  border-radius: var(--radius);
+  padding: 1.1rem;
+  width: min(100%, 400px);
+  box-shadow: var(--shadow);
 }

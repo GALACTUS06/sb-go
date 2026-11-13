@@ -68,7 +68,10 @@ export type MemoryWorld = {
 export type BuildingBranch = {
   id: BuildingId
   title: string
+  /** public/ asset path — SVG or official PDF floor plan */
   floorPlanKey: string
+  /** 1-based PDF page when floorPlanKey is a PDF */
+  floorPlanPage?: number
   sequential: boolean
   enterCopy: string
   completeToast: string

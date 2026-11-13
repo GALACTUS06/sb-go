@@ -4,8 +4,9 @@ export const melvilleBranch: BuildingBranch = {
   id: 'melville',
   title: 'Melville Library',
   sequential: false,
-  floorPlanKey: 'maps/melville-main.svg',
-  enterCopy: 'Enter the archive floor. Hold to scan echoes.',
+  floorPlanKey: 'maps/real/melville-emergency.pdf',
+  floorPlanPage: 2,
+  enterCopy: 'Official Melville emergency floor plans — hold to scan archive echoes.',
   completeToast: 'Melville branch complete',
   completeWhenFlags: [
     'melville.openStacks',

@@ -6,6 +6,7 @@ import { hasFlags, isBranchComplete } from '../../domain/progress'
 import { useGameStore } from '../../state/useGameStore'
 import { HoldInteract } from '../ui/HoldInteract'
 import { QuizModal } from '../ui/QuizModal'
+import { PdfFloorPlan } from './PdfFloorPlan'
 import '../map/CampusMapView.css'
 
 type Props = {
@@ -65,8 +66,10 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
     }
   }
 
+  const isPdf = branch.floorPlanKey.toLowerCase().endsWith('.pdf')
+
   return (
-    <div className="app-shell" style={{ height: '100%' }}>
+    <div className="app-shell" style={{ height: '100dvh', minHeight: '100%' }}>
       <div className="indoor-top">
         <div>
           <strong>{branch.title}</strong>
@@ -95,7 +98,18 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
       ) : null}
 
       <div className="indoor-stage">
-        <img className="indoor-art" src={assetUrl(branch.floorPlanKey)} alt={`${branch.title} floor plan`} />
+        {isPdf ? (
+          <PdfFloorPlan
+            pdfPath={branch.floorPlanKey}
+            pageNumber={branch.floorPlanPage ?? 1}
+          />
+        ) : (
+          <img
+            className="indoor-art"
+            src={assetUrl(branch.floorPlanKey)}
+            alt={`${branch.title} floor plan`}
+          />
+        )}
         {ordered.map((h) => {
           const done = !!progress[branch.id].flags[h.rewardFlag]
           const unlocked = hasFlags(progress, branch.id, h.requiresFlags)

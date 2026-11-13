@@ -4,8 +4,9 @@ export const wangBranch: BuildingBranch = {
   id: 'wang',
   title: 'Charles B. Wang Center',
   sequential: true,
-  floorPlanKey: 'maps/wang-main.svg',
-  enterCopy: 'Follow the ritual path—courtyard, bridge, tower, gallery.',
+  floorPlanKey: 'maps/real/wang-gallery-walking.pdf',
+  floorPlanPage: 1,
+  enterCopy: 'Official Wang Center gallery walking map — follow the ritual path.',
   completeToast: 'Wang Center branch complete',
   completeWhenFlags: [
     'wang.arrival',
