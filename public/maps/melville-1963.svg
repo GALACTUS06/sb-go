@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600">
+  <rect width="800" height="600" fill="#d9cfc0"/>
+  <rect x="100" y="90" width="600" height="400" fill="#f1e8da" stroke="#6e5f4b" stroke-width="4"/>
+  <g stroke="#6e5f4b" stroke-width="2">
+    <path d="M160 180 H360"/>
+    <path d="M160 220 H360"/>
+    <path d="M160 260 H360"/>
+    <path d="M440 180 H640"/>
+    <path d="M440 220 H640"/>
+    <path d="M440 260 H640"/>
+  </g>
+  <text x="400" y="50" text-anchor="middle" font-family="DM Sans, Arial" font-size="28" font-weight="700" fill="#1a1a1a">1963</text>
+  <text x="400" y="540" text-anchor="middle" font-family="DM Sans, Arial" font-size="16" fill="#5c6570">Memory layer</text>
+</svg>

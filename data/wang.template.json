@@ -1,0 +1,150 @@
+{
+  "schemaVersion": 1,
+  "id": "wang",
+  "title": "Charles B. Wang Center",
+  "sequential": true,
+  "floorPlanKey": "maps/wang-main.webp",
+  "enterCopy": "Follow the ritual path—courtyard, bridge, tower, gallery.",
+  "completeToast": "Wang Center branch complete",
+  "completeWhenFlags": [
+    "wang.arrival",
+    "wang.water",
+    "wang.bridge",
+    "wang.tower",
+    "wang.gallery",
+    "wang.crossroads",
+    "wang.world.complete"
+  ],
+  "hotspots": [
+    {
+      "id": "gate-arrival",
+      "x": 0.2,
+      "y": 0.7,
+      "label": "Threshold",
+      "interaction": "hold",
+      "holdMs": 900,
+      "rewardFlag": "wang.arrival",
+      "copy": "The Wang Center is not only a building—it is an arrival into a cultural threshold on campus."
+    },
+    {
+      "id": "courtyard-water",
+      "x": 0.35,
+      "y": 0.55,
+      "label": "Courtyard Water",
+      "interaction": "hold",
+      "holdMs": 900,
+      "requiresFlags": ["wang.arrival"],
+      "rewardFlag": "wang.water",
+      "copy": "Water and planted courts slow the campus rush—space designed for pause as much as passage."
+    },
+    {
+      "id": "arch-bridge",
+      "x": 0.5,
+      "y": 0.5,
+      "label": "Arch Bridge",
+      "interaction": "hold",
+      "holdMs": 900,
+      "requiresFlags": ["wang.water"],
+      "rewardFlag": "wang.bridge",
+      "copy": "The arched bridge and garden paths borrow temple-garden memory without leaving Long Island."
+    },
+    {
+      "id": "pagoda-tower",
+      "x": 0.62,
+      "y": 0.38,
+      "label": "Tower Sightline",
+      "interaction": "quiz",
+      "requiresFlags": ["wang.bridge"],
+      "rewardFlag": "wang.tower",
+      "copy": "The tower reads as a modern pagoda abstraction—an intentional silhouette.",
+      "quiz": {
+        "prompt": "What crowning gesture marks the Wang Center’s skyline identity?",
+        "options": [
+          "An octagonal tower form",
+          "A Gothic spire",
+          "A stadium light mast"
+        ],
+        "answerIndex": 0,
+        "hint": "Look for the vertical lantern-like tower volume.",
+        "failCopy": "Not quite—study the roofline and try again.",
+        "notes": "VERIFY on site before enabling. Rewrite if the standing point cannot see the tower."
+      }
+    },
+    {
+      "id": "gallery-wing",
+      "x": 0.72,
+      "y": 0.48,
+      "label": "Gallery Wing",
+      "interaction": "hold",
+      "holdMs": 900,
+      "requiresFlags": ["wang.tower"],
+      "rewardFlag": "wang.gallery",
+      "copy": "Galleries and performance spaces make the center a living venue—not a sealed monument."
+    },
+    {
+      "id": "jasmine-edge",
+      "x": 0.78,
+      "y": 0.62,
+      "label": "Campus Crossroads",
+      "interaction": "hold",
+      "holdMs": 900,
+      "requiresFlags": ["wang.gallery"],
+      "rewardFlag": "wang.crossroads",
+      "copy": "Food, friends, and foot traffic meet culture here—the building stitches daily student life to global arts."
+    },
+    {
+      "id": "mirror-garden",
+      "x": 0.55,
+      "y": 0.28,
+      "label": "Mirror Seam",
+      "interaction": "jump",
+      "requiresFlags": ["wang.crossroads"],
+      "jumpToWorldId": "wang-mirror",
+      "rewardFlag": "wang.jumpStarted",
+      "copy": "The garden doubles. Step through."
+    }
+  ],
+  "worlds": [
+    {
+      "id": "wang-mirror",
+      "title": "Mirror Garden",
+      "backgroundKey": "maps/wang-mirror.webp",
+      "exitLabel": "Step back",
+      "hotspots": [
+        {
+          "id": "mirror-lantern",
+          "x": 0.4,
+          "y": 0.45,
+          "label": "Lantern Glass",
+          "interaction": "hold",
+          "holdMs": 900,
+          "rewardFlag": "wang.world.lantern",
+          "copy": "Light held in glass—modern craft echoing paper-screen memory."
+        },
+        {
+          "id": "mirror-still-water",
+          "x": 0.6,
+          "y": 0.55,
+          "label": "Still Water",
+          "interaction": "hold",
+          "holdMs": 900,
+          "rewardFlag": "wang.world.water",
+          "copy": "Reflection is a kind of archive: the campus seen twice."
+        },
+        {
+          "id": "mirror-seal",
+          "x": 0.5,
+          "y": 0.75,
+          "label": "Close the Mirror",
+          "interaction": "tap",
+          "requiresFlags": [
+            "wang.world.lantern",
+            "wang.world.water"
+          ],
+          "rewardFlag": "wang.world.complete",
+          "copy": "The mirror settles. Return with the path complete."
+        }
+      ]
+    }
+  ]
+}
