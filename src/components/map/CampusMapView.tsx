@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { assetUrl } from '../../config/assets'
 import { features } from '../../config/features'
 import { getEnabledSites } from '../../data/campusSites'
 import { claimedEnabledCount, enabledSiteCount, suggestedNextSite } from '../../domain/completion'
@@ -81,7 +82,7 @@ export function CampusMapView({ watchGps = true }: Props) {
         </div>
       </div>
 
-      <img className="campus-map-art" src="/maps/campus.svg" alt="Stony Brook main campus map" />
+      <img className="campus-map-art" src={assetUrl('maps/campus.svg')} alt="Stony Brook main campus map" />
 
       {sites.map((site) => {
         const claimed = isSiteClaimed(progress, site.id)

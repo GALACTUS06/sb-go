@@ -4,7 +4,7 @@ export const wangBranch: BuildingBranch = {
   id: 'wang',
   title: 'Charles B. Wang Center',
   sequential: true,
-  floorPlanKey: '/maps/wang-main.svg',
+  floorPlanKey: 'maps/wang-main.svg',
   enterCopy: 'Follow the ritual path—courtyard, bridge, tower, gallery.',
   completeToast: 'Wang Center branch complete',
   completeWhenFlags: [
@@ -108,7 +108,7 @@ export const wangBranch: BuildingBranch = {
     {
       id: 'wang-mirror',
       title: 'Mirror Garden',
-      backgroundKey: '/maps/wang-mirror.svg',
+      backgroundKey: 'maps/wang-mirror.svg',
       exitLabel: 'Step back',
       hotspots: [
         {

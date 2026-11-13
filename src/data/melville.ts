@@ -4,7 +4,7 @@ export const melvilleBranch: BuildingBranch = {
   id: 'melville',
   title: 'Melville Library',
   sequential: false,
-  floorPlanKey: '/maps/melville-main.svg',
+  floorPlanKey: 'maps/melville-main.svg',
   enterCopy: 'Enter the archive floor. Hold to scan echoes.',
   completeToast: 'Melville branch complete',
   completeWhenFlags: [
@@ -87,7 +87,7 @@ export const melvilleBranch: BuildingBranch = {
     {
       id: 'melville-1963',
       title: 'Melville 1963',
-      backgroundKey: '/maps/melville-1963.svg',
+      backgroundKey: 'maps/melville-1963.svg',
       exitLabel: 'Return to present',
       hotspots: [
         {

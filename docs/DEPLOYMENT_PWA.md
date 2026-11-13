@@ -30,10 +30,17 @@ Vite config should include `vite-plugin-pwa` with:
 
 | Host | Notes |
 |------|-------|
+| **GitHub Pages (this repo)** | Auto-deploys from `main` via `.github/workflows/deploy-pages.yml` → `https://galactus06.github.io/sb-go/` |
 | Cloudflare Pages | Excellent HTTPS + CDN |
 | Vercel | Simple Git deploy |
 | Netlify | Simple Git deploy |
-| GitHub Pages | Fine for static; ensure SPA fallback |
+
+### GitHub Pages notes
+
+- Vite `base` is `/sb-go/` (project site path).
+- React Router uses `basename` from `import.meta.env.BASE_URL`.
+- SPA fallback is handled by the Pages artifact + client router; Workbox `navigateFallback` matches the base path.
+- After the first Actions deploy, open the URL on a phone over HTTPS to test GPS.
 
 ### SPA fallback
 

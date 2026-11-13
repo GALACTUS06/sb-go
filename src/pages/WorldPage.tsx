@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link, Navigate, useParams } from 'react-router-dom'
+import { assetUrl } from '../config/assets'
 import { melvilleBranch } from '../data/melville'
 import { wangBranch } from '../data/wang'
 import type { BuildingId, IndoorHotspot, MemoryWorld } from '../domain/types'
@@ -53,7 +54,7 @@ export function WorldPage() {
         </Link>
       </div>
       <div className="indoor-stage">
-        <img className="indoor-art" src={world.backgroundKey} alt={world.title} />
+        <img className="indoor-art" src={assetUrl(world.backgroundKey)} alt={world.title} />
         {world.hotspots.map((h) => {
           const done = !!progress[building].flags[h.rewardFlag]
           const unlocked = hasFlags(progress, building, h.requiresFlags)

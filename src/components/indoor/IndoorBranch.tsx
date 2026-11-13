@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { assetUrl } from '../../config/assets'
 import type { BuildingBranch, IndoorHotspot } from '../../domain/types'
 import { hasFlags, isBranchComplete } from '../../domain/progress'
 import { useGameStore } from '../../state/useGameStore'
@@ -94,7 +95,7 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
       ) : null}
 
       <div className="indoor-stage">
-        <img className="indoor-art" src={branch.floorPlanKey} alt={`${branch.title} floor plan`} />
+        <img className="indoor-art" src={assetUrl(branch.floorPlanKey)} alt={`${branch.title} floor plan`} />
         {ordered.map((h) => {
           const done = !!progress[branch.id].flags[h.rewardFlag]
           const unlocked = hasFlags(progress, branch.id, h.requiresFlags)
