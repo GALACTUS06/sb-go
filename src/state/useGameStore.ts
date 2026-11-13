@@ -8,6 +8,8 @@ import {
 } from '../domain/progress'
 import { clearProgress, loadProgress, saveProgress } from '../storage/save'
 
+const initialProgress = loadProgress()
+
 type GameStore = {
   progress: Progress
   toast: string | null
@@ -31,7 +33,7 @@ function scheduleSave(progress: Progress) {
 }
 
 export const useGameStore = create<GameStore>((set, get) => ({
-  progress: createEmptyProgress(),
+  progress: initialProgress,
   toast: null,
   demoOverride: null,
 
