@@ -43,6 +43,8 @@ export type IndoorHotspot = {
   label: string
   interaction: IndoorInteraction
   holdMs?: number
+  /** public/ path to the place plate shown on click; camera scan compares against this */
+  imageKey?: string
   quiz?: {
     prompt: string
     options: string[]

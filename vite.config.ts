@@ -13,7 +13,7 @@ export default defineConfig({
       injectRegister: false,
       strategies: 'generateSW',
       workbox: {
-        globPatterns: ['**/*.{js,css,html,ico,png,svg,webp,woff2}'],
+        globPatterns: ['**/*.{js,css,html,ico,png,jpg,jpeg,svg,webp,woff2}'],
         navigateFallback: `${base}index.html`,
         // Let /clear-cache.html hit the network even when an old SW is installed
         navigateFallbackDenylist: [/^\/_/, /\/[^/?]+\.[^/]+$/],

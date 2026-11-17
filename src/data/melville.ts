@@ -6,7 +6,7 @@ export const melvilleBranch: BuildingBranch = {
   sequential: false,
   // Official escape-route floor plate (Melville emergency plan p.3)
   floorPlanKey: 'maps/real/melville-floor-p3.png',
-  enterCopy: 'Official Melville floor plate — dots sit on corridors. Hold to scan echoes.',
+  enterCopy: 'Official Melville floor plate — tap a dot to see the place plate, then camera-scan.',
   completeToast: 'Melville branch complete',
   completeWhenFlags: [
     'melville.openStacks',
@@ -19,66 +19,66 @@ export const melvilleBranch: BuildingBranch = {
   hotspots: [
     {
       id: 'open-stacks',
-      // north corridor on escape-route ring
       x: 0.5,
       y: 0.335,
       label: 'Open Stacks Echo',
       interaction: 'hold',
       holdMs: 1000,
+      imageKey: 'maps/places/melville-stacks.jpg',
       rewardFlag: 'melville.openStacks',
       copy: 'Early campus library culture emphasized open stacks—knowledge meant to be walked, not locked away.',
     },
     {
       id: 'melville-name',
-      // west corridor
       x: 0.29,
       y: 0.49,
       label: 'The Melville Name',
       interaction: 'hold',
       holdMs: 1000,
+      imageKey: 'maps/places/melville-west.jpg',
       rewardFlag: 'melville.naming',
       copy: 'The library honors Frank Melville Jr., father of Ward Melville—the benefactor whose land gift made this campus possible.',
     },
     {
       id: 'expansion-wings',
-      // east corridor
       x: 0.7,
       y: 0.44,
       label: 'Wings Around the Core',
       interaction: 'hold',
       holdMs: 1000,
+      imageKey: 'maps/places/melville-east.jpg',
       rewardFlag: 'melville.expansion',
       copy: 'A later expansion wrapped new wings around the original modular library, growing the building without erasing its first footprint.',
     },
     {
       id: 'reading-room',
-      // south corridor
       x: 0.44,
       y: 0.72,
       label: 'Reading Room Pulse',
       interaction: 'hold',
       holdMs: 1000,
+      imageKey: 'maps/places/melville-south.jpg',
       rewardFlag: 'melville.readingRoom',
       copy: 'For generations of students, this building has been less a monument than a workplace—outlets, hours, and quiet persistence.',
     },
     {
       id: 'special-collections',
-      // SE junction (marked exits on plan)
       x: 0.65,
       y: 0.64,
       label: 'Memory Vault',
       interaction: 'hold',
       holdMs: 1000,
+      imageKey: 'maps/places/melville-se.jpg',
       rewardFlag: 'melville.specialCollections',
       copy: 'Special Collections & University Archives keep the primary sources behind campus stories—timelines, photos, and institutional memory.',
     },
     {
       id: 'bridge-echo',
-      // inner edge of north ring → memory jump
       x: 0.5,
       y: 0.4,
       label: 'Bridge Echo',
       interaction: 'jump',
+      imageKey: 'maps/places/melville-core.jpg',
       requiresFlags: [
         'melville.openStacks',
         'melville.naming',
@@ -99,28 +99,30 @@ export const melvilleBranch: BuildingBranch = {
       hotspots: [
         {
           id: 'world-card-catalog',
-          x: 0.35,
-          y: 0.55,
+          x: 0.32,
+          y: 0.42,
           label: 'Card Catalog',
           interaction: 'hold',
           holdMs: 900,
+          imageKey: 'maps/places/melville-card-catalog.jpg',
           rewardFlag: 'melville.world.catalog',
           copy: 'Before search bars, discovery had drawers and patience.',
         },
         {
           id: 'world-modular-plan',
-          x: 0.65,
-          y: 0.5,
+          x: 0.68,
+          y: 0.42,
           label: 'Modular Plan',
           interaction: 'hold',
           holdMs: 900,
+          imageKey: 'maps/places/melville-modular.jpg',
           rewardFlag: 'melville.world.modular',
           copy: 'The first library was modular on purpose—built to grow with a young university.',
         },
         {
           id: 'world-return-seal',
           x: 0.5,
-          y: 0.75,
+          y: 0.72,
           label: 'Seal the Echo',
           interaction: 'tap',
           requiresFlags: ['melville.world.catalog', 'melville.world.modular'],

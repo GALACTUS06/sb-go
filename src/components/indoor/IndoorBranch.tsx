@@ -1,10 +1,12 @@
 import { useMemo, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { assetUrl } from '../../config/assets'
 import type { BuildingBranch, IndoorHotspot } from '../../domain/types'
 import { hasFlags, isBranchComplete } from '../../domain/progress'
 import { useGameStore } from '../../state/useGameStore'
 import { HoldInteract } from '../ui/HoldInteract'
 import { QuizModal } from '../ui/QuizModal'
+import { ScanInteract } from '../ui/ScanInteract'
 import { FloorPlanStage } from './FloorPlanStage'
 import '../map/CampusMapView.css'
 
@@ -113,7 +115,7 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
       </FloorPlanStage>
 
       {active && active.interaction !== 'quiz' ? (
-        <div className="sheet stack">
+        <div className="sheet stack" style={{ maxHeight: '55dvh', overflow: 'auto' }}>
           <div className="row" style={{ justifyContent: 'space-between' }}>
             <h2 style={{ margin: 0 }}>{active.label}</h2>
             <button type="button" className="btn btn-ghost" onClick={() => setActive(null)}>
@@ -123,12 +125,28 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
           <p style={{ margin: 0 }}>{active.copy}</p>
           {progress[branch.id].flags[active.rewardFlag] ? (
             <div className="chip chip-success">Already logged</div>
+          ) : active.interaction === 'hold' && active.imageKey ? (
+            <ScanInteract
+              imagePath={active.imageKey}
+              holdMs={active.holdMs}
+              allowDemoPass={progress.settings.demoMode}
+              onComplete={onInteractComplete}
+            />
           ) : active.interaction === 'hold' ? (
             <HoldInteract holdMs={active.holdMs} onComplete={onInteractComplete} />
           ) : active.interaction === 'jump' ? (
-            <button type="button" className="btn btn-primary" onClick={onInteractComplete}>
-              Jump into memory world
-            </button>
+            <>
+              {active.imageKey ? (
+                <img
+                  className="scan-ref"
+                  src={assetUrl(active.imageKey)}
+                  alt={active.label}
+                />
+              ) : null}
+              <button type="button" className="btn btn-primary" onClick={onInteractComplete}>
+                Jump into memory world
+              </button>
+            </>
           ) : (
             <button type="button" className="btn btn-primary" onClick={onInteractComplete}>
               Collect
@@ -144,6 +162,7 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
           answerIndex={active.quiz.answerIndex}
           hint={active.quiz.hint}
           failCopy={active.quiz.failCopy}
+          imagePath={active.imageKey}
           onClose={() => {
             setQuizOpen(false)
             setActive(null)

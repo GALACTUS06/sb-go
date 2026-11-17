@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { assetUrl } from '../../config/assets'
 
 type Props = {
   prompt: string
@@ -6,6 +7,7 @@ type Props = {
   answerIndex: number
   hint?: string
   failCopy?: string
+  imagePath?: string
   onClose: () => void
   onCorrect: () => void
 }
@@ -16,6 +18,7 @@ export function QuizModal({
   answerIndex,
   hint,
   failCopy,
+  imagePath,
   onClose,
   onCorrect,
 }: Props) {
@@ -24,6 +27,9 @@ export function QuizModal({
   return (
     <div className="modal-backdrop" role="dialog" aria-modal="true">
       <div className="modal-card stack">
+        {imagePath ? (
+          <img className="quiz-ref" src={assetUrl(imagePath)} alt="" />
+        ) : null}
         <h3 style={{ margin: 0 }}>{prompt}</h3>
         {hint ? <p className="muted" style={{ margin: 0 }}>{hint}</p> : null}
         <div className="stack">
