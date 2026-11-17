@@ -62,7 +62,7 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
       [hotspot.rewardFlag]: true,
     }
     setFlag(branch.id, hotspot.rewardFlag)
-    showToast(`找到了：${hotspot.label}`)
+    showToast(`Found: ${hotspot.label}`)
     const wouldComplete = branch.completeWhenFlags.every((f) => updatedFlags[f])
     if (wouldComplete) {
       showToast(branch.completeToast)
@@ -72,7 +72,7 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
   function onHotspotClick(hotspot: IndoorHotspot) {
     const unlocked = hasFlags(progress, branch.id, hotspot.requiresFlags)
     if (!unlocked) {
-      showToast(hotspot.lockedCopy ?? '先完成前面的线索')
+      showToast(hotspot.lockedCopy ?? 'Finish earlier clues first')
       return
     }
     setActive(hotspot)
@@ -104,8 +104,8 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
         <div>
           <strong>{branch.title}</strong>
           <div className="muted" style={{ fontSize: '0.85rem' }}>
-            室内寻宝 · {foundCount}/{huntStops.length} 已找到
-            {memoryUnlocked ? ' · 记忆层已解锁' : ''}
+            Indoor hunt · {foundCount}/{huntStops.length} found
+            {memoryUnlocked ? ' · memory unlocked' : ''}
           </div>
         </div>
         <Link className="btn btn-ghost" to={backTo}>
@@ -118,7 +118,7 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
           <span style={{ width: `${(foundCount / Math.max(1, huntStops.length)) * 100}%` }} />
         </div>
         <button type="button" className="btn btn-ghost" onClick={() => setListOpen((v) => !v)}>
-          {listOpen ? '收起清单' : '寻宝清单'}
+          {listOpen ? 'Hide list' : 'Hunt list'}
         </button>
       </div>
 
@@ -140,7 +140,13 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
                 <span className="hunt-item-body">
                   <strong>{h.label}</strong>
                   <span className="muted">
-                    {done ? '已找到' : isNext ? '当前目标 → 点击查看线索' : unlocked ? '可挑战' : '未解锁'}
+                    {done
+                      ? 'Found'
+                      : isNext
+                        ? 'Current target — open clue'
+                        : unlocked
+                          ? 'Available'
+                          : 'Locked'}
                   </span>
                 </span>
               </button>
@@ -157,7 +163,9 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
               <span className="hunt-item-body">
                 <strong>{memoryGate.label}</strong>
                 <span className="muted">
-                  {memoryUnlocked ? '点击进入记忆层（可反复进入）' : memoryGate.lockedCopy}
+                  {memoryUnlocked
+                    ? 'Enter memory layer anytime (real photos)'
+                    : memoryGate.lockedCopy}
                 </span>
               </span>
             </button>
@@ -166,30 +174,30 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
       ) : null}
 
       {complete ? (
-        <div className="banner banner-demo">室内寻宝完成 — 记忆层可随时再进。</div>
+        <div className="banner banner-demo">Indoor hunt complete — memory layer stays open.</div>
       ) : null}
 
       {memoryUnlocked && memoryGate ? (
         <div className="banner-memory">
           <span>
-            记忆层已开：<strong>{memoryGate.label.replace('→', '').trim()}</strong>
+            Memory ready: <strong>{memoryGate.label.replace('→', '').trim()}</strong>
           </span>
           <button type="button" className="btn btn-primary" onClick={enterMemory}>
-            立即进入
+            Enter now
           </button>
         </div>
       ) : null}
 
       {nextTarget && !listOpen ? (
         <div className="banner banner-demo">
-          当前目标：<strong>{nextTarget.label}</strong>
+          Next: <strong>{nextTarget.label}</strong>
           <button
             type="button"
             className="btn btn-secondary"
             style={{ marginLeft: 8 }}
             onClick={() => onHotspotClick(nextTarget)}
           >
-            打开线索
+            Open clue
           </button>
         </div>
       ) : null}
@@ -230,7 +238,7 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
                 <img className="scan-ref" src={assetUrl(active.imageKey)} alt={active.label} />
               ) : null}
               <button type="button" className="btn btn-primary" onClick={enterMemory}>
-                进入记忆层
+                Enter memory layer
               </button>
             </>
           ) : progress[branch.id].flags[active.rewardFlag] ? (
@@ -238,7 +246,7 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
               {active.imageKey ? (
                 <img className="scan-ref" src={assetUrl(active.imageKey)} alt={active.label} />
               ) : null}
-              <div className="chip chip-success">已找到 · 可查看故事图</div>
+              <div className="chip chip-success">Found · photo still available</div>
             </>
           ) : active.imageKey ? (
             <ScanInteract
@@ -250,7 +258,7 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
             />
           ) : (
             <button type="button" className="btn btn-primary" onClick={onInteractComplete}>
-              收集
+              Collect
             </button>
           )}
         </div>

@@ -11,8 +11,14 @@ import { useGameStore } from '../state/useGameStore'
 import '../components/map/CampusMapView.css'
 
 function findWorld(worldId: string): { building: BuildingId; world: MemoryWorld } | null {
+  // Old demo URLs still work
+  const aliases: Record<string, string> = {
+    'wang-mirror': 'wang-gardens',
+    'melville-1963': 'melville-memory',
+  }
+  const id = aliases[worldId] ?? worldId
   for (const branch of [melvilleBranch, wangBranch]) {
-    const world = branch.worlds.find((w) => w.id === worldId)
+    const world = branch.worlds.find((w) => w.id === id)
     if (world) return { building: branch.id, world }
   }
   return null
@@ -39,9 +45,9 @@ export function WorldPage() {
 
   function completeHotspot(h: IndoorHotspot) {
     setFlag(building, h.rewardFlag)
-    showToast(`记忆点已记录：${h.label}`)
+    showToast(`Logged: ${h.label}`)
     if (h.rewardFlag.endsWith('.complete')) {
-      showToast('记忆层封印完成')
+      showToast('Memory layer complete')
     }
     setActive(null)
   }
@@ -52,7 +58,7 @@ export function WorldPage() {
         <div>
           <strong>{world.title}</strong>
           <div className="muted" style={{ fontSize: '0.85rem' }}>
-            记忆层寻宝 · {foundCount}/{world.hotspots.length} · 拍照比对故事图
+            Real campus photos · {foundCount}/{world.hotspots.length} · camera match
           </div>
         </div>
         <Link className="btn btn-ghost" to={backPath}>
@@ -72,7 +78,7 @@ export function WorldPage() {
               disabled={!unlocked}
               onClick={() => {
                 if (!unlocked) {
-                  showToast('先完成前面的记忆点')
+                  showToast('Finish earlier photo stops first')
                   return
                 }
                 setActive(h)
@@ -81,7 +87,7 @@ export function WorldPage() {
               <span className="hunt-num">{done ? '✓' : i + 1}</span>
               <span className="hunt-item-body">
                 <strong>{h.label}</strong>
-                <span className="muted">{done ? '已记录' : unlocked ? '去扫描' : '未解锁'}</span>
+                <span className="muted">{done ? 'Logged' : unlocked ? 'Scan photo' : 'Locked'}</span>
               </span>
             </button>
           )
@@ -91,7 +97,7 @@ export function WorldPage() {
       <FloorPlanStage
         imagePath={world.backgroundKey}
         alt={world.title}
-        aspectRatio={800 / 600}
+        aspectRatio={1200 / 900}
       >
         {world.hotspots.map((h) => {
           const done = !!progress[building].flags[h.rewardFlag]
@@ -106,7 +112,7 @@ export function WorldPage() {
               title={h.label}
               onClick={() => {
                 if (!unlocked) {
-                  showToast('先完成前面的记忆点')
+                  showToast('Finish earlier photo stops first')
                   return
                 }
                 setActive(h)
@@ -130,12 +136,7 @@ export function WorldPage() {
               {active.imageKey ? (
                 <img className="scan-ref" src={assetUrl(active.imageKey)} alt={active.label} />
               ) : null}
-              <div className="chip chip-success">已记录 · 可反复查看故事图</div>
-              {active.interaction === 'tap' ? null : (
-                <button type="button" className="btn btn-ghost" onClick={() => setActive(null)}>
-                  继续寻宝
-                </button>
-              )}
+              <div className="chip chip-success">Logged · real photo still shown</div>
             </>
           ) : active.interaction === 'hold' && active.imageKey ? (
             <ScanInteract
@@ -147,7 +148,7 @@ export function WorldPage() {
             />
           ) : (
             <button type="button" className="btn btn-primary" onClick={() => completeHotspot(active)}>
-              收集
+              Collect
             </button>
           )}
         </div>
