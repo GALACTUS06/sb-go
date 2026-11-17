@@ -138,4 +138,4 @@ export async function compareToReference(
 }
 
 /** Soft threshold — real-world photos vs archive plates will not be pixel-identical. */
-export const MATCH_THRESHOLD = 0.42
+export const MATCH_THRESHOLD = 0.36

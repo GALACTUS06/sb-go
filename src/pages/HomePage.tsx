@@ -29,8 +29,8 @@ export function HomePage() {
             {GAME_DISPLAY_NAME}
           </h1>
           <p className="muted" style={{ margin: 0, fontSize: '1.05rem', lineHeight: 1.45 }}>
-            Walk West Campus for real SBU history—then step inside Melville (1963 library) and Wang
-            (2002 cultural center) for archive plates and Memory Layers.
+            室外走校园认地点；室内按清单寻宝：看故事图 → 相机比对 → 解锁记忆层（Melville 1963 /
+            Wang Mirror Garden）。
           </p>
         </div>
 
@@ -44,7 +44,7 @@ export function HomePage() {
 
         <div>
           <div className="muted" style={{ fontSize: '0.8rem', marginBottom: 6 }}>
-            Buildings (Demo Mode)
+            室内寻宝（Demo）
           </div>
           <div className="row" style={{ gap: '0.5rem' }}>
             <button
@@ -68,7 +68,7 @@ export function HomePage() {
 
         <div>
           <div className="muted" style={{ fontSize: '0.8rem', marginBottom: 6 }}>
-            Memory Layers (Demo Mode)
+            记忆层（可直接进）
           </div>
           <div className="row" style={{ gap: '0.5rem' }}>
             <button

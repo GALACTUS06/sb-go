@@ -15,7 +15,7 @@ type Phase = 'preview' | 'camera' | 'result'
 
 export function ScanInteract({
   imagePath,
-  label = 'Hold to scan',
+  label = '长按拍照比对',
   holdMs = 900,
   allowDemoPass = false,
   onComplete,
@@ -177,10 +177,10 @@ export function ScanInteract({
 
       <p className="muted" style={{ margin: 0, fontSize: '0.85rem' }}>
         {phase === 'camera'
-          ? 'Align the ghost overlay with what you see, then hold to capture & compare.'
+          ? '对准半透明参考图，长按拍照并自动比对。'
           : phase === 'result' && matched
-            ? 'Match logged.'
-            : 'Reference plate for this stop — open the camera, then hold to scan.'}
+            ? '比对通过，已记入寻宝进度。'
+            : '先看故事图 → 打开相机 → 长按拍照比对（Demo Mode 可跳过）。'}
       </p>
 
       {error ? (
@@ -199,18 +199,18 @@ export function ScanInteract({
       ) : phase === 'preview' || phase === 'result' ? (
         <div className="stack" style={{ gap: '0.5rem' }}>
           <button type="button" className="btn btn-primary" onClick={() => void openCamera()}>
-            {phase === 'result' ? 'Rescan with camera' : 'Open camera'}
+            {phase === 'result' ? '重新拍照' : '打开相机'}
           </button>
           {allowDemoPass ? (
             <button
               type="button"
-              className="btn btn-ghost"
+              className="btn btn-secondary"
               onClick={() => {
                 setMatched(true)
                 onComplete()
               }}
             >
-              Accept scan (Demo Mode)
+              Demo：直接算找到
             </button>
           ) : null}
         </div>
