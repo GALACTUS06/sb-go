@@ -6,8 +6,22 @@
     </linearGradient>
   </defs>
   <rect width="800" height="600" fill="url(#m)"/>
-  <rect x="150" y="100" width="500" height="380" rx="24" fill="none" stroke="#3f6f92" stroke-width="3" stroke-opacity="0.5"/>
-  <line x1="400" y1="100" x2="400" y2="480" stroke="#3f6f92" stroke-width="2" stroke-opacity="0.35"/>
-  <ellipse cx="400" cy="360" rx="120" ry="36" fill="#9ec5e8" fill-opacity="0.55"/>
-  <text x="400" y="50" text-anchor="middle" font-family="Arial, sans-serif" font-size="28" font-weight="700" fill="#1a1a1a">Mirror Garden</text>
+  <text x="400" y="42" text-anchor="middle" font-family="Georgia, serif" font-size="28" font-weight="700" fill="#1a1a1a">Mirror Garden Memory</text>
+  <text x="400" y="565" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#3f6f92">Tap dots — Lantern Glass · Still Water · Close the Mirror</text>
+
+  <rect x="140" y="80" width="520" height="420" rx="28" fill="none" stroke="#3f6f92" stroke-width="3" stroke-opacity="0.45"/>
+  <line x1="400" y1="80" x2="400" y2="500" stroke="#3f6f92" stroke-width="2" stroke-opacity="0.3"/>
+
+  <!-- lantern tower -->
+  <rect x="210" y="120" width="110" height="200" rx="8" fill="#dfeaf3" stroke="#3f6f92" stroke-width="2"/>
+  <polygon points="265,95 200,130 330,130" fill="#9ec5e8" stroke="#3f6f92" stroke-width="2"/>
+  <text x="265" y="350" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#2d4f6b">Lantern Glass</text>
+
+  <!-- water -->
+  <ellipse cx="530" cy="360" rx="130" ry="50" fill="#9ec5e8" fill-opacity="0.7" stroke="#3f6f92" stroke-width="2"/>
+  <ellipse cx="530" cy="360" rx="70" ry="24" fill="#cfe3f2"/>
+  <text x="530" y="430" text-anchor="middle" font-family="Arial, sans-serif" font-size="15" fill="#2d4f6b">Still Water</text>
+
+  <circle cx="400" cy="480" r="26" fill="none" stroke="#990000" stroke-width="3" stroke-dasharray="6 4"/>
+  <text x="400" y="530" text-anchor="middle" font-family="Arial, sans-serif" font-size="14" fill="#990000">Close the Mirror</text>
 </svg>

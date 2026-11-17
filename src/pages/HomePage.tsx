@@ -9,7 +9,7 @@ export function HomePage() {
   const setDemo = useGameStore((s) => s.setDemo)
   const hasSave = claimed > 0
 
-  function openBuilding(path: '/building/melville' | '/building/wang') {
+  function openDemo(path: string) {
     setDemo(true)
     navigate(path)
   }
@@ -29,8 +29,8 @@ export function HomePage() {
             {GAME_DISPLAY_NAME}
           </h1>
           <p className="muted" style={{ margin: 0, fontSize: '1.05rem', lineHeight: 1.45 }}>
-            Walk the real campus to unlock story stops—and step inside Melville and Wang for
-            building-specific runs.
+            Walk West Campus for real SBU history—then step inside Melville (1963 library) and Wang
+            (2002 cultural center) for archive plates and Memory Layers.
           </p>
         </div>
 
@@ -42,23 +42,52 @@ export function HomePage() {
           {hasSave ? 'Continue campus map' : 'Open campus map'}
         </Link>
 
-        <div className="row" style={{ gap: '0.5rem' }}>
-          <button
-            type="button"
-            className="btn btn-secondary"
-            style={{ flex: 1 }}
-            onClick={() => openBuilding('/building/melville')}
-          >
-            Enter Melville
-          </button>
-          <button
-            type="button"
-            className="btn btn-secondary"
-            style={{ flex: 1 }}
-            onClick={() => openBuilding('/building/wang')}
-          >
-            Enter Wang
-          </button>
+        <div>
+          <div className="muted" style={{ fontSize: '0.8rem', marginBottom: 6 }}>
+            Buildings (Demo Mode)
+          </div>
+          <div className="row" style={{ gap: '0.5rem' }}>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              style={{ flex: 1 }}
+              onClick={() => openDemo('/building/melville')}
+            >
+              Melville Library
+            </button>
+            <button
+              type="button"
+              className="btn btn-secondary"
+              style={{ flex: 1 }}
+              onClick={() => openDemo('/building/wang')}
+            >
+              Wang Center
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <div className="muted" style={{ fontSize: '0.8rem', marginBottom: 6 }}>
+            Memory Layers (Demo Mode)
+          </div>
+          <div className="row" style={{ gap: '0.5rem' }}>
+            <button
+              type="button"
+              className="btn btn-primary"
+              style={{ flex: 1 }}
+              onClick={() => openDemo('/world/melville-1963')}
+            >
+              Melville 1963
+            </button>
+            <button
+              type="button"
+              className="btn btn-primary"
+              style={{ flex: 1 }}
+              onClick={() => openDemo('/world/wang-mirror')}
+            >
+              Mirror Garden
+            </button>
+          </div>
         </div>
 
         <Link
@@ -74,7 +103,7 @@ export function HomePage() {
         </button>
 
         <p className="muted" style={{ margin: 0, fontSize: '0.8rem' }}>
-          v{APP_VERSION} · Indoor shortcuts enable Demo Mode automatically
+          v{APP_VERSION} · Story plates cite SBU Libraries & Wang Center history
         </p>
       </div>
     </div>

@@ -31,6 +31,16 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
 
   const ordered = useMemo(() => branch.hotspots, [branch.hotspots])
   const stepDone = ordered.filter((h) => progress[branch.id].flags[h.rewardFlag]).length
+  const memoryGate = ordered.find((h) => h.interaction === 'jump' && h.jumpToWorldId)
+  const memoryUnlocked = memoryGate
+    ? hasFlags(progress, branch.id, memoryGate.requiresFlags)
+    : false
+  const memoryDone = memoryGate
+    ? !!progress[branch.id].flags[memoryGate.rewardFlag] ||
+      branch.completeWhenFlags.some(
+        (f) => f.endsWith('.world.complete') && progress[branch.id].flags[f],
+      )
+    : false
 
   function unlockReward(hotspot: IndoorHotspot) {
     const updatedFlags = {
@@ -96,15 +106,40 @@ export function IndoorBranch({ branch, backTo = '/map' }: Props) {
         <div className="banner banner-demo">Branch complete — return anytime.</div>
       ) : null}
 
+      {memoryGate && memoryUnlocked && !memoryDone ? (
+        <div className="banner-memory">
+          <span>
+            Memory Layer unlocked: <strong>{memoryGate.label.replace('→', '').trim()}</strong>
+          </span>
+          <button
+            type="button"
+            className="btn btn-primary"
+            onClick={() => {
+              setFlag(branch.id, memoryGate.rewardFlag)
+              navigate(`/world/${memoryGate.jumpToWorldId}`)
+            }}
+          >
+            Enter now
+          </button>
+        </div>
+      ) : null}
+
+      {!memoryUnlocked && memoryGate ? (
+        <div className="banner banner-demo">
+          Memory Layer locked — {memoryGate.lockedCopy ?? 'scan earlier echoes first.'}
+        </div>
+      ) : null}
+
       <FloorPlanStage imagePath={branch.floorPlanKey} alt={`${branch.title} floor plan`}>
         {ordered.map((h) => {
           const done = !!progress[branch.id].flags[h.rewardFlag]
           const unlocked = hasFlags(progress, branch.id, h.requiresFlags)
+          const isJump = h.interaction === 'jump'
           return (
             <button
               key={h.id}
               type="button"
-              className={`hotspot${done ? ' hotspot-done' : ''}${!unlocked ? ' hotspot-locked' : ''}`}
+              className={`hotspot${done ? ' hotspot-done' : ''}${!unlocked ? ' hotspot-locked' : ''}${isJump ? ' hotspot-jump' : ''}`}
               style={{ left: `${h.x * 100}%`, top: `${h.y * 100}%` }}
               aria-label={h.label}
               title={h.label}
